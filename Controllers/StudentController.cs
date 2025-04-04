@@ -24,6 +24,21 @@ namespace WebAppEF.Controllers
             return View(await _context.Students.ToListAsync());
         }
 
+        // GET: Student/Search
+        public async Task<IActionResult> Search(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return View(new List<Student>());
+            }
+
+            var students = await _context.Students
+                .Where(s => s.Name.ToLower().Contains(name.ToLower()))
+                .ToListAsync();
+
+            return View(students);
+        }
+
         // GET: Student/Details/5
         public async Task<IActionResult> Details(int? id)
         {
